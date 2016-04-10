@@ -62,20 +62,20 @@ class dualshock4(object):
         non_move_guard = 7
         negative = 127 - non_move_guard
         positive = 128 + non_move_guard
-        x = 0
-        y = 0
+        axis = [0] * 2
         if (x_raw < negative):
-            x = x_raw - negative
+            axis[0] = x_raw - negative
         elif (x_raw > positive):
-            x = x_raw - positive
+            axis[0] = x_raw - positive
         if (y_raw < negative):
-            y = negative - y_raw
+            axis[1] = negative - y_raw
         elif (y_raw > positive):
-            y = positive - y_raw
-        print('X = %d, Y = %d' % (x, y))
+            axis[1] = positive - y_raw
+        return axis
     def report_loop(self):
         while True:
-            self.read()
+            axis = self.read()
+            print('X = %d, Y = %d' % (axis[0], axis[1]))
 
 ds4 = dualshock4()
 ds4.report_loop()
