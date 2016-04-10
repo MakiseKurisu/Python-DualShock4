@@ -57,9 +57,9 @@ class dualshock4(object):
         elif (x_raw > positive):
             x = x_raw - positive
         if (y_raw < negative):
-            y = y_raw - negative
+            y = negative - y_raw
         elif (y_raw > positive):
-            y = y_raw - positive
+            y = positive - y_raw
         print('X = %d, Y = %d' % (x, y))
     
     def read_loop(self):
