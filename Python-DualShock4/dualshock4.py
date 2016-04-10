@@ -2,6 +2,7 @@ import os
 import fcntl
 import hexdump
 import time
+#import zlib
 
 _IOC_WRITE = 1
 _IOC_READ = 2
@@ -33,13 +34,24 @@ class dualshock4(object):
     #def __init__(self, device):
     def __init__(self):
         self.hidraw = os.open('/dev/hidraw0', os.O_RDWR)
-        
         ioc = HIDIOCGFEATURE(GET_FEATURE_02_SIZE)
         buf = bytearray(GET_FEATURE_02_SIZE)
         buf[0] = GET_FEATURE_02_ID
-        
         fcntl.ioctl(self.hidraw, ioc, bytes(buf))
-    
+    def write(self, red, green, blue):
+        buf = bytearray(REPORT_SIZE)
+        buf[0] = REPORT_ID
+        buf[3] = 0xf3
+        buf[6] = 127
+        buf[7] = 127
+        buf[8] = 255
+        buf[9] = 255
+        buf[10] = 255
+        buf[REPORT_SIZE - 1] = 0x30
+        buf[REPORT_SIZE - 2] = 0x2c
+        buf[REPORT_SIZE - 3] = 0xb8
+        buf[REPORT_SIZE - 4] = 0xbc
+        os.write(self.hidraw,buf)
     def read(self):
         buf = os.read(self.hidraw,REPORT_SIZE)
         if buf[0] != REPORT_ID:
@@ -61,10 +73,9 @@ class dualshock4(object):
         elif (y_raw > positive):
             y = positive - y_raw
         print('X = %d, Y = %d' % (x, y))
-    
-    def read_loop(self):
+    def report_loop(self):
         while True:
             self.read()
 
 ds4 = dualshock4()
-ds4.read_loop()
+ds4.report_loop()
