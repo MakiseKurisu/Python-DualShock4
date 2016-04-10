@@ -80,31 +80,23 @@ class dualshock4(object):
     def report_loop(self):
         while True:
             axis = self.read()
-            #print('X = %d, Y = %d' % (axis[0], axis[1]))
-            velocity = math.hypot(axis[0], axis[1])
+            x = axis[0]
+            y = axis[1]
+            velocity = math.hypot(x, y)
             if (velocity > 120):
                 velocity = 120
-            if (axis[0] == 0):
-                engine = [axis[1]] * 2
-            elif (axis[0] > 0):
-                if (axis[1] == 0):
-                    engine[0] = 120
-                    engine[1] = -120
-                else:
-                    engine[0] = math.fabs(axis[1]) / axis[1] * velocity
-                    theta = math.atan(math.fabs(axis[0]) / axis[1])
-                    turning = (2 * theta) % math.pi
-                    engine[1] = math.cos(turning) * velocity
-            elif (axis[0] < 0):
-                if (axis[1] == 0):
-                    engine[1] = 120
-                    engine[0] = -120
-                else:
-                    engine[1] = math.fabs(axis[1]) / axis[1] * velocity
-                    theta = math.atan(math.fabs(axis[0]) / axis[1])
-                    turning = (2 * theta) % math.pi
-                    engine[0] = math.cos(turning) * velocity
-            print('Left = %d, Right = %d' % (engine[0], engine[1]))
+            if (y == 0):
+                engine_l = velocity
+                engine_r = -1 * velocity
+            else:
+                engine_l = math.fabs(y) / y * velocity
+                theta = (2 * math.atan(math.fabs(x) / y)) % math.pi
+                engine_r = math.cos(theta) * velocity
+            if (x < 0):
+                temp = engine_l
+                engine_l = engine_r
+                engine_r = temp
+            print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l, engine_r))
 
 ds4 = dualshock4()
 ds4.report_loop()
