@@ -1,8 +1,13 @@
 import os
 import fcntl
-import hexdump
-import time
-#import zlib
+import math
+import ptvsd
+
+ptvsd.enable_attach('test')
+print('Waiting for debugger')
+#ptvsd.wait_for_attach()
+print('Attached')
+#ptvsd.break_into_debugger()
 
 _IOC_WRITE = 1
 _IOC_READ = 2
@@ -75,7 +80,31 @@ class dualshock4(object):
     def report_loop(self):
         while True:
             axis = self.read()
-            print('X = %d, Y = %d' % (axis[0], axis[1]))
+            #print('X = %d, Y = %d' % (axis[0], axis[1]))
+            velocity = math.hypot(axis[0], axis[1])
+            if (velocity > 120):
+                velocity = 120
+            if (axis[0] == 0):
+                engine = [axis[1]] * 2
+            elif (axis[0] > 0):
+                if (axis[1] == 0):
+                    engine[0] = 120
+                    engine[1] = -120
+                else:
+                    engine[0] = math.fabs(axis[1]) / axis[1] * velocity
+                    theta = math.atan(math.fabs(axis[0]) / axis[1])
+                    turning = (2 * theta) % math.pi
+                    engine[1] = math.cos(turning) * velocity
+            elif (axis[0] < 0):
+                if (axis[1] == 0):
+                    engine[1] = 120
+                    engine[0] = -120
+                else:
+                    engine[1] = math.fabs(axis[1]) / axis[1] * velocity
+                    theta = math.atan(math.fabs(axis[0]) / axis[1])
+                    turning = (2 * theta) % math.pi
+                    engine[0] = math.cos(turning) * velocity
+            print('Left = %d, Right = %d' % (engine[0], engine[1]))
 
 ds4 = dualshock4()
 ds4.report_loop()
