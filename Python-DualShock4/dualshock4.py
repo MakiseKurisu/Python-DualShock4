@@ -1,9 +1,9 @@
 import os
 import fcntl
 import math
-import ptvsd
+#import ptvsd
 
-ptvsd.enable_attach('test')
+#ptvsd.enable_attach('test')
 print('Waiting for debugger')
 #ptvsd.wait_for_attach()
 print('Attached')
@@ -38,7 +38,7 @@ REPORT_SIZE = 78
 class dualshock4(object):
     #def __init__(self, device):
     def __init__(self):
-        self.hidraw = os.open('/dev/hidraw0', os.O_RDWR)
+        self.hidraw = os.open('/dev/hidraw2', os.O_RDWR)
         ioc = HIDIOCGFEATURE(GET_FEATURE_02_SIZE)
         buf = bytearray(GET_FEATURE_02_SIZE)
         buf[0] = GET_FEATURE_02_ID
