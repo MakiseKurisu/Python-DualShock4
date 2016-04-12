@@ -19,7 +19,7 @@ servoMax = 600  # Max pulse length out of 4096
 
 def setServoPulse(channel, pulse):
   pulseLength = 1000000                   # 1,000,000 us per second
-  pulseLength /= 60                       # 60 Hz
+  pulseLength /= 200                       # 60 Hz
   print("%d us per period" % pulseLength)
   pulseLength /= 4096                     # 12 bits of resolution
   print("%d us per bit" % pulseLength)
@@ -34,7 +34,7 @@ def int_handler(signal, frame):
 
 signal.signal(signal.SIGINT, int_handler)
 
-pwm.setPWMFreq(60)                        # Set frequency to 60 Hz
+pwm.setPWMFreq(200)                        # Set frequency to 200 Hz
 #while (True):
   # Change speed of continuous servo on channel O
   #pwm.setAllPWM(0, servoMin)
@@ -140,8 +140,10 @@ class dualshock4(object):
                 temp = engine_l
                 engine_l = engine_r
                 engine_r = temp
-            pwm.setPWM(4, 0, int(engine_l))
-            pwm.setPWM(5, 0, int(engine_r))
+            engine_l = engine_l / 120 * 0.5 + 1.5
+            engine_r = engine_r / 120 * 0.5 + 1.5
+            setServoPulse(4, engine_l)
+            setServoPulse(5, engine_r)
             print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l, engine_r))
 
 ds4 = dualshock4()
