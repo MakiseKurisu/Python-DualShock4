@@ -100,8 +100,6 @@ while True:
         setServoPulse(5, engine_r)
     else:
         if (velocity):
-            GPIO.output(7, GPIO.LOW)
-        else:
             if (engine_l_dir):
                 if (engine_l_dir > 0):
                     # AIN1 L AIN2 H CCW
@@ -132,3 +130,5 @@ while True:
                 GPIO.output(15, GPIO.LOW)
                 GPIO.output(13, GPIO.LOW)
             GPIO.output(7, GPIO.HIGH)
+        else:
+            GPIO.output(7, GPIO.LOW)
