@@ -5,6 +5,9 @@ import sys
 import math
 import RPi.GPIO as GPIO
 import dualshock4
+import ptvsd
+
+ptvsd.enable_attach('test')
 
 def setServoPulse(channel, pulse):
     pulseLength = 1000000                   # 1,000,000 us per second
@@ -36,7 +39,7 @@ if (test):
         def read(self):
             axis = [0] * 2
             axis[0] = int(float(input("x: ")))
-            axis[1] = int(float(input("x: ")))
+            axis[1] = int(float(input("y: ")))
             return axis
     ds4 = test_dualshock4()
 else:
@@ -55,6 +58,9 @@ else:
     pwma.start(0)
     pwmb = GPIO.PWM(11, 120)
     pwmb.start(0)
+
+print('Waiting for debugger')
+ptvsd.wait_for_attach(5)
 
 while True:
     axis = ds4.read()
