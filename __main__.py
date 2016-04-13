@@ -38,8 +38,14 @@ if (test):
     class test_dualshock4(object):
         def read(self):
             axis = [0] * 2
-            axis[0] = int(float(input("x: ")))
-            axis[1] = int(float(input("y: ")))
+            try:
+                axis[0] = int(float(input("x: ")))
+            except:
+                axis[0] = 0
+            try:
+                axis[1] = int(float(input("y: ")))
+            except:
+                axis[1] = 0
             return axis
     ds4 = test_dualshock4()
 else:
@@ -117,7 +123,7 @@ while True:
                     # AIN1 H AIN2 L CW
                     GPIO.output(12, GPIO.HIGH)
                     GPIO.output(16, GPIO.LOW)
-                pwma.ChangeDutyCycle(engine_l / 120)
+                pwma.ChangeDutyCycle(engine_l / 120 * 100)
             else:
                 # AIN1 L AIN2 L STOP
                 GPIO.output(12, GPIO.LOW)
@@ -132,7 +138,7 @@ while True:
                     # BIN1 L BIN2 H CCW
                     GPIO.output(15, GPIO.LOW)
                     GPIO.output(13, GPIO.HIGH)
-                pwmb.ChangeDutyCycle(engine_r / 120)
+                pwmb.ChangeDutyCycle(engine_r / 120 * 100)
             else:
                 # BIN1 L BIN2 L STOP
                 GPIO.output(15, GPIO.LOW)
