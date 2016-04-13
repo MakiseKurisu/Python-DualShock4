@@ -5,18 +5,19 @@ import smbus
 # ===========================================================================
 # Adafruit_I2C Class
 # ===========================================================================
-
 class Adafruit_I2C(object):
 
   @staticmethod
   def getPiRevision():
     "Gets the version number of the Raspberry Pi board"
-    # Revision list available at: http://elinux.org/RPi_HardwareHistory#Board_Revision_History
+    # Revision list available at:
+    # http://elinux.org/RPi_HardwareHistory#Board_Revision_History
     try:
       with open('/proc/cpuinfo', 'r') as infile:
         for line in infile:
           # Match a line of the form "Revision : 0002" while ignoring extra
-          # info in front of the revsion (like 1000 when the Pi was over-volted).
+          # info in front of the revsion (like 1000 when the Pi was
+          # over-volted).
           match = re.match('Revision\s+:\s+.*(\w{4})$', line)
           if match and match.group(1) in ['0000', '0002', '0003']:
             # Return revision 1 if revision ends with 0000, 0002 or 0003.
@@ -24,7 +25,8 @@ class Adafruit_I2C(object):
           elif match:
             # Assume revision 2 if revision ends with any other 4 chars.
             return 2
-        # Couldn't find the revision, assume revision 0 like older code for compatibility.
+        # Couldn't find the revision, assume revision 0 like older code for
+        # compatibility.
         return 0
     except:
       return 0
@@ -47,9 +49,9 @@ class Adafruit_I2C(object):
     "Reverses the byte order of an int (16-bit) or long (32-bit) value"
     # Courtesy Vishal Sapre
     byteCount = len(hex(data)[2:].replace('L','')[::2])
-    val       = 0
+    val = 0
     for i in range(byteCount):
-      val    = (val << 8) | (data & 0xff)
+      val = (val << 8) | (data & 0xff)
       data >>= 8
     return val
 
@@ -71,8 +73,7 @@ class Adafruit_I2C(object):
     try:
       self.bus.write_word_data(self.address, reg, value)
       if self.debug:
-        print("I2C: Wrote 0x%02X to register pair 0x%02X,0x%02X" %
-         (value, reg, reg+1))
+        print("I2C: Wrote 0x%02X to register pair 0x%02X,0x%02X" % (value, reg, reg + 1))
     except IOError as err:
       return self.errMsg()
 
@@ -100,8 +101,7 @@ class Adafruit_I2C(object):
     try:
       results = self.bus.read_i2c_block_data(self.address, reg, length)
       if self.debug:
-        print("I2C: Device 0x%02X returned the following from reg 0x%02X" %
-         (self.address, reg))
+        print("I2C: Device 0x%02X returned the following from reg 0x%02X" % (self.address, reg))
         print(results)
       return results
     except IOError as err:
@@ -112,8 +112,7 @@ class Adafruit_I2C(object):
     try:
       result = self.bus.read_byte_data(self.address, reg)
       if self.debug:
-        print("I2C: Device 0x%02X returned 0x%02X from reg 0x%02X" %
-         (self.address, result & 0xFF, reg))
+        print("I2C: Device 0x%02X returned 0x%02X from reg 0x%02X" % (self.address, result & 0xFF, reg))
       return result
     except IOError as err:
       return self.errMsg()
@@ -124,8 +123,7 @@ class Adafruit_I2C(object):
       result = self.bus.read_byte_data(self.address, reg)
       if result > 127: result -= 256
       if self.debug:
-        print("I2C: Device 0x%02X returned 0x%02X from reg 0x%02X" %
-         (self.address, result & 0xFF, reg))
+        print("I2C: Device 0x%02X returned 0x%02X from reg 0x%02X" % (self.address, result & 0xFF, reg))
       return result
     except IOError as err:
       return self.errMsg()
@@ -134,7 +132,7 @@ class Adafruit_I2C(object):
     "Reads an unsigned 16-bit value from the I2C device"
     try:
       result = self.bus.read_word_data(self.address,reg)
-      # Swap bytes if using big endian because read_word_data assumes little 
+      # Swap bytes if using big endian because read_word_data assumes little
       # endian on ARM (little endian) systems.
       if not little_endian:
         result = ((result << 8) & 0xFF00) + (result >> 8)

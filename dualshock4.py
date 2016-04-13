@@ -1,13 +1,6 @@
 import os
 import fcntl
 import math
-#import ptvsd
-
-#ptvsd.enable_attach('test')
-print('Waiting for debugger')
-#ptvsd.wait_for_attach()
-print('Attached')
-#ptvsd.break_into_debugger()
 
 _IOC_WRITE = 1
 _IOC_READ = 2
@@ -36,9 +29,8 @@ REPORT_ID = 0x11
 REPORT_SIZE = 78
 
 class dualshock4(object):
-    #def __init__(self, device):
-    def __init__(self):
-        self.hidraw = os.open('/dev/hidraw2', os.O_RDWR)
+    def __init__(self, device):
+        self.hidraw = os.open(device, os.O_RDWR)
         ioc = HIDIOCGFEATURE(GET_FEATURE_02_SIZE)
         buf = bytearray(GET_FEATURE_02_SIZE)
         buf[0] = GET_FEATURE_02_ID
@@ -77,26 +69,3 @@ class dualshock4(object):
         elif (y_raw > positive):
             axis[1] = positive - y_raw
         return axis
-    def report_loop(self):
-        while True:
-            axis = self.read()
-            x = axis[0]
-            y = axis[1]
-            velocity = math.hypot(x, y)
-            if (velocity > 120):
-                velocity = 120
-            if (y == 0):
-                engine_l = velocity
-                engine_r = -1 * velocity
-            else:
-                engine_l = math.fabs(y) / y * velocity
-                theta = (2 * math.atan(math.fabs(x) / y)) % math.pi
-                engine_r = math.cos(theta) * velocity
-            if (x < 0):
-                temp = engine_l
-                engine_l = engine_r
-                engine_r = temp
-            print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l, engine_r))
-
-ds4 = dualshock4()
-ds4.report_loop()

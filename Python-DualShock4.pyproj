@@ -22,7 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Adafruit_I2C.py" />
+    <Compile Include="Adafruit_PWM_Servo_Driver.py" />
     <Compile Include="dualshock4.py" />
+    <Compile Include="__main__.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
