@@ -35,8 +35,8 @@ if (test):
     class test_dualshock4(object):
         def read(self):
             axis = [0] * 2
-            axis[0] = input("x: ")
-            axis[1] = input("y: ")
+            axis[0] = int(float(input("x: ")))
+            axis[1] = int(float(input("x: ")))
             return axis
     ds4 = test_dualshock4()
 else:
