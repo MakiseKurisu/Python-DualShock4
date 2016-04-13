@@ -116,13 +116,13 @@ while True:
         if (velocity):
             if (engine_l_dir):
                 if (engine_l_dir > 0):
-                    # AIN1 H AIN2 L CW
-                    GPIO.output(12, GPIO.HIGH)
-                    GPIO.output(16, GPIO.LOW)
-                else:
                     # AIN1 L AIN2 H CCW
                     GPIO.output(12, GPIO.LOW)
                     GPIO.output(16, GPIO.HIGH)
+                else:
+                    # AIN1 H AIN2 L CW
+                    GPIO.output(12, GPIO.HIGH)
+                    GPIO.output(16, GPIO.LOW)
                 pwma.ChangeDutyCycle(engine_l / 120 * 100)
             else:
                 # AIN1 L AIN2 L STOP
