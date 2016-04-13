@@ -65,9 +65,6 @@ else:
     pwmb = GPIO.PWM(11, 120)
     pwmb.start(0)
 
-print('Waiting for debugger')
-ptvsd.wait_for_attach(5)
-
 while True:
     axis = ds4.read()
     x = axis[0]
@@ -82,7 +79,7 @@ while True:
         engine_r = -1 * velocity
     else:
         engine_l = math.fabs(y) / y * velocity
-        theta = 2 * math.atan2(math.fabs(x), y)
+        theta = 2 * (math.atan2(math.fabs(x), y) % (math.pi / 2))
         engine_r = math.cos(theta) * velocity
     engine_l_dir = 0
     engine_r_dir = 0
