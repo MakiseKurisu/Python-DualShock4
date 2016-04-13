@@ -82,7 +82,7 @@ while True:
         engine_r = -1 * velocity
     else:
         engine_l = math.fabs(y) / y * velocity
-        theta = (2 * math.atan2(math.fabs(x), y)) % math.pi
+        theta = 2 * math.atan2(math.fabs(x), y)
         engine_r = math.cos(theta) * velocity
     engine_l_dir = 0
     engine_r_dir = 0
