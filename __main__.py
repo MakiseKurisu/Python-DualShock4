@@ -82,7 +82,7 @@ while True:
         engine_r = -1 * velocity
     else:
         engine_l = math.fabs(y) / y * velocity
-        theta = (2 * math.atan(math.fabs(x) / y)) % math.pi
+        theta = (2 * math.atan2(math.fabs(x), y)) % math.pi
         engine_r = math.cos(theta) * velocity
     engine_l_dir = 0
     engine_r_dir = 0
@@ -106,7 +106,7 @@ while True:
         engine_l = engine_r
         engine_r = temp
 
-    print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l, engine_r))
+    print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l * engine_l_dir, engine_r * engine_r_dir))
     if (servo):
         engine_l = engine_l / 120 * engine_l_dir * 0.5 + 1.5
         engine_r = engine_r / 120 * engine_r_dir * 0.5 + 1.5
