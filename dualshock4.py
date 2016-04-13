@@ -1,6 +1,5 @@
 import os
 import fcntl
-import math
 
 _IOC_WRITE = 1
 _IOC_READ = 2
