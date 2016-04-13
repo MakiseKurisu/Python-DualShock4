@@ -67,7 +67,7 @@ while True:
     x = axis[0]
     y = axis[1]
 
-    velocity = math.hypot(x, y)
+    velocity = int(math.hypot(x, y))
     if (velocity > 120):
         velocity = 120
     
@@ -80,12 +80,20 @@ while True:
         engine_r = math.cos(theta) * velocity
     engine_l_dir = 0
     engine_r_dir = 0
-    if (engine_l):
+    if (math.fabs(engine_l) < 0.1):
+        engine_l = 0
+    else:
         engine_l_dir = int(math.fabs(engine_l) / engine_l)
-        engine_l = math.fabs(engine_l)
-    if (engine_r):
+        engine_l = int(math.fabs(engine_l))
+        if (engine_l > 120):
+            engine_l = 120
+    if (math.fabs(engine_r) < 0.1):
+        engine_r = 0
+    else:
         engine_r_dir = int(math.fabs(engine_r) / engine_r)
-        engine_r = math.fabs(engine_r)
+        engine_r = int(math.fabs(engine_r))
+        if (engine_l > 120):
+            engine_l = 120
     
     if (x < 0):
         temp = engine_l
