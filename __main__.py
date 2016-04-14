@@ -75,9 +75,9 @@ while True:
         velocity = 120
     
     theta = math.atan2(x,y)
-    if (theta == 0):
+    if (math.fabs(theta) < 0.1):
         engine_l = engine_r = velocity
-    elif (theta == math.pi):
+    elif (math.fabs(theta) > math.pi - 0.1):
         engine_l = engine_r = -1 * velocity
     else:
         if (theta > 0):
