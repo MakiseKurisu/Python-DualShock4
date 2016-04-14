@@ -4,7 +4,7 @@ import signal
 import sys
 import math
 import RPi.GPIO as GPIO
-import dualshock4
+from ds4 import dualshock4
 import ptvsd
 
 ptvsd.enable_attach('test')
