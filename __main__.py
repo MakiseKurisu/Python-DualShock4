@@ -117,11 +117,6 @@ while True:
         engine_r = int(math.fabs(engine_r))
         if (engine_l > 120):
             engine_l = 120
-    
-    if (x < 0):
-        temp = engine_l
-        engine_l = engine_r
-        engine_r = temp
 
     print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l * engine_l_dir, engine_r * engine_r_dir))
     if (servo):
