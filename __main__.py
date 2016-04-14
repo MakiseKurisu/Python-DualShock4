@@ -26,7 +26,7 @@ def int_handler(signal, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, int_handler)
 
-test = True
+test = False
 servo = False
 
 ds4 = None
