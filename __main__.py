@@ -51,18 +51,24 @@ if (test):
 else:
     ds4 = dualshock4('/dev/hidraw2')
 
+GPIO_STBY = 11
+GPIO_PWMB = 7
+GPIO_BIN2 = 5
+GPIO_BIN1 = 3
+GPIO_AIN1 = 12
+GPIO_AIN2 = 10
+GPIO_PWMA = 8
 if (servo):
     pwm = PWM(0x40)
     pwm.setPWMFreq(200)
 else:
     GPIO.setmode(GPIO.BOARD)
-    channels = [7, 11, 13, 15, 12, 16, 18]
-    # STBY PWMB BIN2 BIN1 AIN1 AIN2 PWMA
+    channels = [GPIO_STBY, GPIO_PWMB, GPIO_BIN2, GPIO_BIN1, GPIO_AIN1, GPIO_AIN2, GPIO_PWMA]
     GPIO.setup(channels, GPIO.OUT)
     GPIO.output(channels, GPIO.LOW)
-    pwma = GPIO.PWM(18, 120)
+    pwma = GPIO.PWM(GPIO_PWMA, 120)
     pwma.start(0)
-    pwmb = GPIO.PWM(11, 120)
+    pwmb = GPIO.PWM(GPIO_PWMB, 120)
     pwmb.start(0)
 
 while True:
@@ -129,32 +135,32 @@ while True:
             if (engine_l_dir):
                 if (engine_l_dir > 0):
                     # AIN1 L AIN2 H CCW
-                    GPIO.output(12, GPIO.LOW)
-                    GPIO.output(16, GPIO.HIGH)
+                    GPIO.output(GPIO_AIN1, GPIO.LOW)
+                    GPIO.output(GPIO_AIN2, GPIO.HIGH)
                 else:
                     # AIN1 H AIN2 L CW
-                    GPIO.output(12, GPIO.HIGH)
-                    GPIO.output(16, GPIO.LOW)
+                    GPIO.output(GPIO_AIN1, GPIO.HIGH)
+                    GPIO.output(GPIO_AIN2, GPIO.LOW)
                 pwma.ChangeDutyCycle(engine_l / 120 * 100)
             else:
                 # AIN1 L AIN2 L STOP
-                GPIO.output(12, GPIO.LOW)
-                GPIO.output(16, GPIO.LOW)
+                GPIO.output(GPIO_AIN1, GPIO.LOW)
+                GPIO.output(GPIO_AIN2, GPIO.LOW)
             
             if (engine_r_dir):
                 if (engine_r_dir > 0):
                     # BIN1 L BIN2 H CCW
-                    GPIO.output(15, GPIO.LOW)
-                    GPIO.output(13, GPIO.HIGH)
+                    GPIO.output(GPIO_BIN1, GPIO.LOW)
+                    GPIO.output(GPIO_BIN2, GPIO.HIGH)
                 else:
                     # BIN1 H BIN2 L CW
-                    GPIO.output(15, GPIO.HIGH)
-                    GPIO.output(13, GPIO.LOW)
+                    GPIO.output(GPIO_BIN1, GPIO.HIGH)
+                    GPIO.output(GPIO_BIN2, GPIO.LOW)
                 pwmb.ChangeDutyCycle(engine_r / 120 * 100)
             else:
                 # BIN1 L BIN2 L STOP
-                GPIO.output(15, GPIO.LOW)
-                GPIO.output(13, GPIO.LOW)
-            GPIO.output(7, GPIO.HIGH)
+                GPIO.output(GPIO_BIN1, GPIO.LOW)
+                GPIO.output(GPIO_BIN2, GPIO.LOW)
+            GPIO.output(GPIO_STBY, GPIO.HIGH)
         else:
-            GPIO.output(7, GPIO.LOW)
+            GPIO.output(GPIO_STBY, GPIO.LOW)
