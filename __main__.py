@@ -135,13 +135,13 @@ while True:
         if (velocity):
             if (engine_l_dir):
                 if (engine_l_dir > 0):
-                    # AIN1 L AIN2 H CCW
-                    GPIO.output(GPIO_AIN1, GPIO.LOW)
-                    GPIO.output(GPIO_AIN2, GPIO.HIGH)
-                else:
                     # AIN1 H AIN2 L CW
                     GPIO.output(GPIO_AIN1, GPIO.HIGH)
                     GPIO.output(GPIO_AIN2, GPIO.LOW)
+                else:
+                    # AIN1 L AIN2 H CCW
+                    GPIO.output(GPIO_AIN1, GPIO.LOW)
+                    GPIO.output(GPIO_AIN2, GPIO.HIGH)
                 pwma.ChangeDutyCycle(engine_l / 120 * 100)
             else:
                 # AIN1 L AIN2 L STOP
@@ -150,13 +150,13 @@ while True:
             
             if (engine_r_dir):
                 if (engine_r_dir > 0):
-                    # BIN1 L BIN2 H CCW
-                    GPIO.output(GPIO_BIN1, GPIO.LOW)
-                    GPIO.output(GPIO_BIN2, GPIO.HIGH)
-                else:
                     # BIN1 H BIN2 L CW
                     GPIO.output(GPIO_BIN1, GPIO.HIGH)
                     GPIO.output(GPIO_BIN2, GPIO.LOW)
+                else:
+                    # BIN1 L BIN2 H CCW
+                    GPIO.output(GPIO_BIN1, GPIO.LOW)
+                    GPIO.output(GPIO_BIN2, GPIO.HIGH)
                 pwmb.ChangeDutyCycle(engine_r / 120 * 100)
             else:
                 # BIN1 L BIN2 L STOP
