@@ -55,9 +55,9 @@ GPIO_STBY = 11
 GPIO_PWMB = 7
 GPIO_BIN2 = 5
 GPIO_BIN1 = 3
-GPIO_AIN1 = 12
-GPIO_AIN2 = 10
-GPIO_PWMA = 8
+GPIO_AIN1 = 22
+GPIO_AIN2 = 18
+GPIO_PWMA = 16
 if (servo):
     pwm = PWM(0x40)
     pwm.setPWMFreq(200)
