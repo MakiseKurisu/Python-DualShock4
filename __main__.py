@@ -49,7 +49,7 @@ if (test):
             return axis
     ds4 = test_dualshock4()
 else:
-    ds4 = dualshock4('/dev/hidraw2')
+    ds4 = dualshock4('/dev/hidraw0')
 
 GPIO_STBY = 11
 GPIO_PWMB = 7
