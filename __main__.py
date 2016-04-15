@@ -28,6 +28,7 @@ signal.signal(signal.SIGINT, int_handler)
 
 test = False
 servo = False
+print_only = True
 
 ds4 = None
 pwm = None
@@ -126,6 +127,8 @@ while True:
             engine_l = 120
 
     print('X = %d, Y = %d, Left = %d, Right = %d' % (x, y, engine_l * engine_l_dir, engine_r * engine_r_dir))
+    if (print_only):
+        continue
     if (servo):
         engine_l = engine_l / 120 * engine_l_dir * 0.5 + 1.5
         engine_r = engine_r / 120 * engine_r_dir * 0.5 + 1.5
