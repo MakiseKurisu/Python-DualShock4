@@ -83,31 +83,33 @@ while True:
         velocity = 120
     
     theta = math.atan2(x,y)
+    '''
     if (math.fabs(theta) < 0.1):
         engine_l = engine_r = velocity
     elif (math.fabs(theta) > math.pi - 0.1):
         engine_l = engine_r = -1 * velocity
     else:
-        if (theta > 0):
-            if (theta <= (math.pi / 2)):
-                engine_l = velocity
-            else:
-                engine_l = -1 * velocity
-            theta = theta * 2
-            if (theta >= math.pi):
-                theta -= math.pi
-            # engine_r = math.cos(theta) * velocity
-            engine_r = (1 - theta * 2 / math.pi) * velocity
+    '''
+    if (theta > 0):
+        if (theta <= (math.pi / 2)):
+            engine_l = velocity
         else:
-            if (theta >= -1 * (math.pi / 2)):
-                engine_r = velocity
-            else:
-                engine_r = -1 * velocity
-            theta = theta * 2
-            if (theta <= -1 * math.pi):
-                theta += math.pi
-            # engine_l = math.cos(theta) * velocity
-            engine_l = (1 + theta * 2 / math.pi) * velocity
+            engine_l = -1 * velocity
+        theta = theta * 2
+        if (theta >= math.pi):
+            theta -= math.pi
+        # engine_r = math.cos(theta) * velocity
+        engine_r = (1 - theta * 2 / math.pi) * velocity
+    else:
+        if (theta >= -1 * (math.pi / 2)):
+            engine_r = velocity
+        else:
+            engine_r = -1 * velocity
+        theta = theta * 2
+        if (theta <= -1 * math.pi):
+            theta += math.pi
+        # engine_l = math.cos(theta) * velocity
+        engine_l = (1 + theta * 2 / math.pi) * velocity
     
     engine_l_dir = 0
     engine_r_dir = 0
