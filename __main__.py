@@ -91,7 +91,7 @@ while True:
     else:
     '''
     if (theta > 0):
-        if (theta <= (math.pi / 2)):
+        if (theta < (math.pi / 2)):
             engine_l = velocity
         else:
             engine_l = -1 * velocity
@@ -101,7 +101,7 @@ while True:
         # engine_r = math.cos(theta) * velocity
         engine_r = (1 - theta * 2 / math.pi) * velocity
     else:
-        if (theta >= -1 * (math.pi / 2)):
+        if (theta > -1 * (math.pi / 2)):
             engine_r = velocity
         else:
             engine_r = -1 * velocity
